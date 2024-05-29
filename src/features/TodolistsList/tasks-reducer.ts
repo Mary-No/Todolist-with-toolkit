@@ -2,10 +2,26 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelTyp
 import {AppThunk} from 'app/store'
 import {handleServerAppError, handleServerNetworkError} from 'utils/error-utils'
 import {appActions} from "app/appSlice";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {todolistsActions} from "features/TodolistsList/todolistsSlice";
 
-const initialState: TasksStateType = {}
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+const slice = createSlice({
+    name: "tasks",
+    initialState: {} as TasksStateType,
+    reducers: {
+        // removeTask: (state, action: PayloadAction<{ taskId: string, todolistId: string }>) => {
+        //     const index = state.findIndex(todo => todo.id === action.payload.todolistId)
+        //     if (index !== -1) state.splice(index, 1)
+        // },
+        extraReducers: (builder) => {
+            builder.addCase(todolistsActions.addTodolist, (state, action) => {
+                state[action.payload.todolist.id] = []
+            })
+        }
+    }
+})
+export const _tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id != action.taskId)}
@@ -25,7 +41,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return copyState
         case 'SET-TODOLISTS': {
             const copyState = {...state}
-            action.todolists.forEach((tl:any) => {
+            action.todolists.forEach((tl: any) => {
                 copyState[tl.id] = []
             })
             return copyState
@@ -133,3 +149,6 @@ type ActionsType =
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof setTasksAC>
     | any
+
+export const tasksReducer = slice.reducer
+export const tasksActions = slice.actions
