@@ -50,4 +50,4 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 }
 
 export const authActions = slice.actions
-export const authSlice = slice.reducer
+export const authReducer = slice.reducer

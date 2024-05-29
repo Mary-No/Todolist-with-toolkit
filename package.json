@@ -6,6 +6,7 @@
 		}
 	},
 	"version": "0.1.0",
+	"homepage": "http://Mary-No.github.io/",
 	"private": true,
 	"dependencies": {
 		"@babel/runtime": "^7.23.7",
@@ -23,6 +24,7 @@
 		"@types/react-dom": "^18.2.18",
 		"@types/uuid": "^9.0.7",
 		"axios": "^1.6.3",
+		"features": "^0.1.0",
 		"formik": "^2.4.5",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

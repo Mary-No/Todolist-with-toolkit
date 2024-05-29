@@ -26,14 +26,7 @@ const slice = createSlice({
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type InitialStateType = {
-    // происходит ли сейчас взаимодействие с сервером
-    status: RequestStatusType
-    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-    error: string | null
-    // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
-    isInitialized: boolean
-}
+
 
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
@@ -51,3 +44,4 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
 
 export const appReducer = slice.reducer
 export const appActions = slice.actions
+export type InitialStateType = ReturnType<typeof slice.getInitialState>
