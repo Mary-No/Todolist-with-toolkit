@@ -1,16 +1,19 @@
 import axios from 'axios'
 
 const settings = {
-    withCredentials: true,
     headers: {
-        'API-KEY': '1cdd9f77-c60e-4af5-b194-659e4ebd5d41'
+        'API-KEY': '234c9bba-18f8-4dd2-860f-665d9f96e11c'
     }
 }
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
+instance.interceptors.request.use(function (config) {
+    config.headers["Authorization"] = "Bearer " + localStorage.getItem("sn-token");
 
+    return config;
+});
 // api
 export const todolistsAPI = {
     getTodolists() {
@@ -53,7 +56,7 @@ export type LoginParamsType = {
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        const promise = instance.post<ResponseType<{userId?: number}>>('auth/login', data);
+        const promise = instance.post<ResponseType<{userId?: number, token: string}>>('auth/login', data);
         return promise;
     },
     logout() {

@@ -24,6 +24,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
+                localStorage.setItem("sn-token", res.data.data.token);
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
