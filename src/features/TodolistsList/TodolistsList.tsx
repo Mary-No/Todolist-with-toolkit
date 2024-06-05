@@ -1,28 +1,28 @@
-import React, { useCallback, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { AppRootStateType } from 'app/store'
+import React, {useCallback, useEffect} from 'react'
+import {useSelector} from 'react-redux'
+import {AppRootStateType} from 'app/store'
 import {
     addTodolistTC,
     changeTodolistTitleTC,
     fetchTodolistsTC,
     FilterValuesType,
-    removeTodolistTC,
-    TodolistDomainType, todolistsActions
+    removeTodolistTC, selectTodolists,
+    todolistsActions
 } from 'features/TodolistsList/todolistsSlice'
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from './tasks-reducer'
-import { TaskStatuses } from 'api/todolists-api'
-import { Grid, Paper } from '@mui/material'
-import { AddItemForm } from 'components/AddItemForm/AddItemForm'
-import { Todolist } from './Todolist/Todolist'
-import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from 'hooks/useAppDispatch';
+import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from './tasks-reducer'
+import {TaskStatuses} from 'api/todolists-api'
+import {Grid, Paper} from '@mui/material'
+import {AddItemForm} from 'components/AddItemForm/AddItemForm'
+import {Todolist} from './Todolist/Todolist'
+import {Navigate} from 'react-router-dom'
+import {useAppDispatch} from 'hooks/useAppDispatch';
 
 type PropsType = {
     demo?: boolean
 }
 
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    const todolists = useSelector(selectTodolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
@@ -33,7 +33,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
             return;
         }
         const thunk = fetchTodolistsTC()
-			dispatch(thunk)
+        dispatch(thunk)
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
@@ -57,7 +57,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [])
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = todolistsActions.changeTodolistFilter({id: todolistId,filter: value})
+        const action = todolistsActions.changeTodolistFilter({id: todolistId, filter: value})
         dispatch(action)
     }, [])
 
@@ -77,7 +77,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     }, [dispatch])
 
     if (!isLoggedIn) {
-        return <Navigate to={"/login"} />
+        return <Navigate to={"/login"}/>
     }
 
     return <>

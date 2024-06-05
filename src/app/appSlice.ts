@@ -22,12 +22,12 @@ const slice = createSlice({
             state.isInitialized = action.payload.isInitialized
         },
     },
+    selectors:{
+        selectStatus: (sliceState) => sliceState.status,
+        selectError: (sliceState) => sliceState.error,
+        selectIsInitialized: (sliceState) => sliceState.isInitialized
+    }
 })
-
-
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
-
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
@@ -41,7 +41,9 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
     })
 }
 
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type InitialStateType = ReturnType<typeof slice.getInitialState>
 
 export const appReducer = slice.reducer
 export const appActions = slice.actions
-export type InitialStateType = ReturnType<typeof slice.getInitialState>
+export const {selectStatus, selectError, selectIsInitialized} = slice.selectors
