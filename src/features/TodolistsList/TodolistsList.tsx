@@ -9,13 +9,14 @@ import {
     removeTodolistTC, selectTodolists,
     todolistsActions
 } from 'features/TodolistsList/todolistsSlice'
-import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from './tasks-reducer'
+import {addTaskTC, removeTaskTC, selectTasks, updateTaskTC} from './tasks-reducer'
 import {TaskStatuses} from 'api/todolists-api'
 import {Grid, Paper} from '@mui/material'
 import {AddItemForm} from 'components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
 import {Navigate} from 'react-router-dom'
 import {useAppDispatch} from 'hooks/useAppDispatch';
+import {selectIsLoggedIn} from "features/Login/authSlice";
 
 type PropsType = {
     demo?: boolean
@@ -23,8 +24,8 @@ type PropsType = {
 
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const todolists = useSelector(selectTodolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const tasks = useSelector(selectTasks)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const dispatch = useAppDispatch()
 

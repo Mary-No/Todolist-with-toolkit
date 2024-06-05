@@ -46,7 +46,10 @@ const slice = createSlice({
             .addCase(clearTasksAndTodolists, ()=>{
                 return {};
             })
-    }
+    },
+    selectors:{
+        selectTasks: sliceState => sliceState,
+    },
 })
 
 const fetchTasks = createAsyncThunk<{tasks: TaskType[], todolistId: string}, string, {state: AppRootStateType, dispatch: AppDispatch, rejectValue: null}>(`${slice.name}/fetchTasks`,
@@ -136,3 +139,4 @@ export type TasksStateType = {
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
 export const tasksThunks = {fetchTasks}
+export const {selectTasks} = slice.selectors

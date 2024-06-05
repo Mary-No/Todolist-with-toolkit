@@ -14,6 +14,9 @@ const slice = createSlice({
             state.isLoggedIn = action.payload.isLoggedIn
         },
     },
+    selectors: {
+        selectIsLoggedIn: sliceState => sliceState.isLoggedIn,
+    }
 })
 
 
@@ -42,6 +45,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
             if (res.data.resultCode === 0) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
                 dispatch(clearTasksAndTodolists());
+                localStorage.clear();
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -54,3 +58,4 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 
 export const authActions = slice.actions
 export const authReducer = slice.reducer
+export const {selectIsLoggedIn} = slice.selectors
