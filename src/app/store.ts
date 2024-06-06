@@ -3,7 +3,7 @@ import {todolistsReducer} from 'features/TodolistsList/todolistsSlice';
 import {combineReducers} from 'redux'
 import {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {appReducer} from 'app/appSlice'
-import {authReducer} from 'features/Login/authSlice'
+import {authReducer} from 'features/auth/model/auth.reducer'
 import {configureStore, UnknownAction} from "@reduxjs/toolkit";
 
 // ❗старая запись, с новыми версиями не работает

@@ -1,5 +1,5 @@
 import {v1} from 'uuid'
-import {TodolistType} from 'api/todolists-api'
+import {TodolistType} from 'features/TodolistsList/Todolist/todolists-api'
 import {RequestStatusType} from 'app/appSlice'
 import {
     FilterValuesType,
