@@ -1,4 +1,4 @@
-import {UpdateDomainTaskModelType} from "features/TodolistsList/tasks-reducer";
+import {UpdateDomainTaskModelType} from "features/TodolistsList/tasks.reducer";
 import {instance} from "common/instance/instance";
 import {TaskPriorities, TaskStatuses} from "common/enums";
 import {BaseResponseType} from "common/types";
@@ -45,6 +45,11 @@ export type UpdateTaskArgs = {
     domainModel: UpdateDomainTaskModelType,
     todolistId: string
 }
+export type RemoveTaskArgs = {
+    taskId: string,
+    todolistId: string
+}
+
 
 
 

@@ -1,5 +1,5 @@
-import {tasksActions, tasksReducer, TasksStateType, tasksThunks} from './tasks-reducer'
-import {todolistsActions} from "features/TodolistsList/todolistsSlice";
+import {tasksReducer, TasksStateType, tasksThunks} from 'features/TodolistsList/tasks.reducer'
+import {todolistsActions, todosThunks} from "features/TodolistsList/todolists.reducer";
 import {BaseAction} from "common/types/types";
 import {TaskPriorities, TaskStatuses} from "common/enums";
 
@@ -27,7 +27,10 @@ beforeEach(() => {
 
 
 test('correct task should be deleted from correct array', () => {
-    const action = tasksActions.removeTask({taskId: "2", todolistId: "todolistId2"});
+    const action: BaseAction<typeof tasksThunks.removeTask.fulfilled> = {
+        type: tasksThunks.removeTask.fulfilled.type,
+        payload: {taskId: "2", todolistId: "todolistId2"}
+    }
 
     const endState = tasksReducer(startState, action)
 
@@ -116,15 +119,15 @@ test('property with todolistId should be deleted', () => {
 });
 
 test('empty arrays should be added when we set todolists', () => {
-    const action = todolistsActions.setTodolists({todolists: [
-        {id: "1", title: "title 1", order: 0, addedDate: ""},
-        {id: "2", title: "title 2", order: 0, addedDate: ""}
-    ]})
-
+    const action: BaseAction<typeof todosThunks.fetchTodolists.fulfilled> = {
+        type: todosThunks.fetchTodolists.fulfilled.type,
+        payload: {todolists: [
+                {id: "1", title: "title 1", order: 0, addedDate: ""},
+                {id: "2", title: "title 2", order: 0, addedDate: ""}
+            ]}
+    }
     const endState = tasksReducer({}, action)
-
     const keys = Object.keys(endState)
-
     expect(keys.length).toBe(2)
     expect(endState['1']).toBeDefined()
     expect(endState['2']).toBeDefined()

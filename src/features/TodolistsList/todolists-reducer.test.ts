@@ -5,8 +5,10 @@ import {
     FilterValuesType,
     TodolistDomainType,
     todolistsActions,
-    todolistsReducer
-} from "features/TodolistsList/todolistsSlice";
+    todolistsReducer, todosThunks
+} from "features/TodolistsList/todolists.reducer";
+import {BaseAction} from "common/types";
+import {tasksThunks} from "features/TodolistsList/tasks.reducer";
 
 let todolistId1: string
 let todolistId2: string
@@ -66,9 +68,10 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[1].filter).toBe(newFilter)
 })
 test('todolists should be added', () => {
-
-    const action = todolistsActions.setTodolists({todolists: startState})
-
+    const action: BaseAction<typeof todosThunks.fetchTodolists.fulfilled> = {
+        type: todosThunks.fetchTodolists.fulfilled.type,
+        payload: {todolists: startState}
+    }
     const endState = todolistsReducer([], action)
 
     expect(endState.length).toBe(2)

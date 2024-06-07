@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect} from 'react'
 import {Task} from './Task/Task'
 import {TaskType} from 'features/TodolistsList/Todolist/todolists-api'
-import {FilterValuesType, TodolistDomainType} from 'features/TodolistsList/todolistsSlice'
+import {FilterValuesType, TodolistDomainType} from 'features/TodolistsList/todolists.reducer'
 import {useAppDispatch} from 'common/hooks/useAppDispatch';
 import {Button} from '@mui/material'
 import {ClearRounded} from '@mui/icons-material'
-import {tasksThunks} from "features/TodolistsList/tasks-reducer";
+import {tasksThunks} from "features/TodolistsList/tasks.reducer";
 import {TaskStatuses} from "common/enums";
 import {AddItemForm, EditableSpan} from "common/components";
 

@@ -3,12 +3,11 @@ import {useSelector} from 'react-redux'
 import {
     addTodolistTC,
     changeTodolistTitleTC,
-    fetchTodolistsTC,
     FilterValuesType,
     removeTodolistTC, selectTodolists,
-    todolistsActions
-} from 'features/TodolistsList/todolistsSlice'
-import {removeTaskTC, selectTasks, tasksThunks} from './tasks-reducer'
+    todolistsActions, todosThunks
+} from 'features/TodolistsList/todolists.reducer'
+import {selectTasks, tasksThunks} from 'features/TodolistsList/tasks.reducer'
 import {Grid, Paper} from '@mui/material'
 import {Todolist} from './Todolist/Todolist'
 import {Navigate} from 'react-router-dom'
@@ -32,11 +31,11 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         if (demo || !isLoggedIn) {
             return;
         }
-        dispatch(fetchTodolistsTC())
+        dispatch(todosThunks.fetchTodolists())
     }, [])
 
-    const removeTask = useCallback(function (id: string, todolistId: string) {
-        dispatch(removeTaskTC(id, todolistId))
+    const removeTask = useCallback(function (taskId: string, todolistId: string) {
+        dispatch(tasksThunks.removeTask({taskId, todolistId}))
     }, [])
 
     const addTask = useCallback(function (title: string, todolistId: string) {
