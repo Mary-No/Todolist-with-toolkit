@@ -3,13 +3,13 @@ import {
     todolistsAPI,
     TodolistType
 } from 'features/TodolistsList/Todolist/todolists-api'
-import {appActions, RequestStatusType} from 'app/appSlice'
+import {appActions, RequestStatusType} from 'app/app.reducer'
 import {handleServerNetworkError} from 'common/utils/handleServerNetworkError'
-import {AppThunk} from 'app/store';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "common/actions/common.actions";
 import {createAppAsyncThunk} from "common/utils/createAppAsyncThunk";
 import {handleServerAppError} from "../../common/utils";
+import { ResultCode } from 'common/enums';
 
 
 const slice = createSlice({
@@ -71,7 +71,7 @@ const removeTodolist = createAppAsyncThunk<{
         dispatch(appActions.setAppStatus({status: 'loading'}))
         dispatch(todolistsActions.changeTodolistEntityStatus({id: todolistId, status: "loading"}))
         const res = await todolistsAPI.deleteTodolist(todolistId)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {todolistId}
         } else {
@@ -91,7 +91,7 @@ const addTodolist = createAppAsyncThunk<{
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         const res = await todolistsAPI.createTodolist(title)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {todolist: res.data.data.item}
         } else {
@@ -109,7 +109,7 @@ const changeTodolistTitle = createAppAsyncThunk< ChangeTodolistTitleArgs, Change
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         const res = await todolistsAPI.updateTodolist(id, title)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {id, title}
         } else {
@@ -129,6 +129,7 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 }
+
 export const todolistsReducer = slice.reducer
 export const todolistsActions = slice.actions
 export const todosThunks = {fetchTodolists, removeTodolist, addTodolist, changeTodolistTitle}

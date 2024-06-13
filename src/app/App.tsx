@@ -3,10 +3,9 @@ import './App.css'
 import {TodolistsList} from 'features/TodolistsList/TodolistsList'
 import {useSelector} from 'react-redux'
 import {AppRootStateType} from './store'
-import {initializeAppTC, selectIsInitialized, selectStatus} from 'app/appSlice'
+import {initializeAppTC, selectIsInitialized, selectStatus} from 'app/app.reducer'
 import {HashRouter, Route, Routes} from 'react-router-dom'
 import {Login} from 'features/auth/ui/Login'
-import {logoutTC} from 'features/auth/model/auth.reducer'
 import {
     AppBar, Box,
     Button,
@@ -20,6 +19,7 @@ import {
 import {Menu} from '@mui/icons-material'
 import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {ErrorSnackbar} from "common/components";
+import {authThunks} from "../features/auth/model/auth.reducer";
 
 type PropsType = {
     demo?: boolean
@@ -36,7 +36,7 @@ function App({demo = false}: PropsType) {
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        dispatch(authThunks.logout())
     }, [])
 
     if (!isInitialized) {

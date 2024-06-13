@@ -4,14 +4,13 @@ import {
     todolistsAPI, UpdateTaskArgs,
     UpdateTaskModelType
 } from 'features/TodolistsList/Todolist/todolists-api'
-import {AppThunk} from 'app/store'
-import {appActions} from "app/appSlice";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {todolistsActions, todosThunks} from "features/TodolistsList/todolists.reducer";
+import {appActions} from "app/app.reducer";
+import {createSlice} from "@reduxjs/toolkit";
+import {todosThunks} from "features/TodolistsList/todolists.reducer";
 import {clearTasksAndTodolists} from "common/actions/common.actions";
 import {createAppAsyncThunk} from "common/utils/createAppAsyncThunk";
 import {handleServerAppError, handleServerNetworkError} from "common/utils";
-import {TaskPriorities, TaskStatuses} from "common/enums";
+import {ResultCode, TaskPriorities, TaskStatuses} from "common/enums";
 
 
 
@@ -76,7 +75,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, CreateTaskArgs>(`${slice
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         const res = await todolistsAPI.createTask(arg)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {task: res.data.data.item}
 
@@ -95,7 +94,7 @@ const removeTask = createAppAsyncThunk<RemoveTaskArgs, RemoveTaskArgs>(`${slice.
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
         const res = await todolistsAPI.deleteTask(todolistId, taskId)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
             console.log(res);
             return {taskId, todolistId}
@@ -130,7 +129,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgs, UpdateTaskArgs>(`${slice.
             ...arg.domainModel
         }
         const res = await todolistsAPI.updateTask(arg.todolistId, arg.taskId, apiModel)
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
             return arg
         } else {
             handleServerAppError(res.data, dispatch);

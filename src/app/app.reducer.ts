@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {authActions} from "features/auth/model/auth.reducer";
+import {authActions, authThunks} from "features/auth/model/auth.reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "features/auth/api/authApi";
 
@@ -36,7 +36,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         } else {
 
         }
-
         dispatch(appActions.setAppInitialized({isInitialized:true}));
     })
 }
