@@ -42,8 +42,8 @@ const slice = createSlice({
     .addCase(todolistsActions.addTodolist, (state, action) => {
                 state[action.payload.todolist.id] = [];
             })
-    .addCase(todolistsActions.removeTodolist, (state, action) => {
-                delete state[action.payload.id]
+    .addCase(todosThunks.removeTodolist.fulfilled, (state, action) => {
+                delete state[action.payload.todolistId]
             })
     .addCase(todosThunks.fetchTodolists.fulfilled, (state, action) => {
                 action.payload.todolists.forEach(tl => {
@@ -157,6 +157,5 @@ export type TasksStateType = {
 }
 
 export const tasksReducer = slice.reducer
-export const tasksActions = slice.actions
 export const tasksThunks = {fetchTasks, addTask, updateTask, removeTask}
 export const {selectTasks} = slice.selectors

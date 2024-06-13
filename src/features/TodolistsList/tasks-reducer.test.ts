@@ -108,12 +108,12 @@ test('new array should be added when new todolist is added', () => {
     expect(endState[newKey]).toEqual([]);
 });
 test('property with todolistId should be deleted', () => {
-    const action = todolistsActions.removeTodolist({id:"todolistId2"});
-
+    const action: BaseAction<typeof todosThunks.removeTodolist.fulfilled> = {
+        type: todosThunks.removeTodolist.fulfilled.type,
+        payload: {todolistId: "todolistId2"}
+    }
     const endState = tasksReducer(startState, action)
-
     const keys = Object.keys(endState);
-
     expect(keys.length).toBe(1);
     expect(endState["todolistId2"]).not.toBeDefined();
 });

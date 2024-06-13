@@ -24,7 +24,11 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-    const endState = todolistsReducer(startState, todolistsActions.removeTodolist({id: todolistId1}))
+    const action: BaseAction<typeof todosThunks.removeTodolist.fulfilled> = {
+        type: todosThunks.removeTodolist.fulfilled.type,
+        payload: {todolistId: todolistId1}
+    }
+    const endState = todolistsReducer(startState, action)
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
