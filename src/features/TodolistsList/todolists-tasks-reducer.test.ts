@@ -1,6 +1,12 @@
-import {TodolistDomainType, todolistsActions, todolistsReducer} from 'features/TodolistsList/todolists.reducer'
+import {
+    TodolistDomainType,
+    todolistsActions,
+    todolistsReducer,
+    todosThunks
+} from 'features/TodolistsList/todolists.reducer'
 import {tasksReducer, TasksStateType} from 'features/TodolistsList/tasks.reducer'
 import {TodolistType} from 'features/TodolistsList/Todolist/todolists-api'
+import {BaseAction} from "../../common/types";
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {};
@@ -12,8 +18,10 @@ test('ids should be equals', () => {
         addedDate: '',
         order: 0
     }
-
-    const action = todolistsActions.addTodolist({todolist});
+    const action: BaseAction<typeof todosThunks.addTodolist.fulfilled> = {
+        type: todosThunks.addTodolist.fulfilled.type,
+        payload: {todolist: todolist}
+    }
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)

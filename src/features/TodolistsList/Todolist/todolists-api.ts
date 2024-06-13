@@ -49,7 +49,10 @@ export type RemoveTaskArgs = {
     taskId: string,
     todolistId: string
 }
-
+export type ChangeTodolistTitleArgs = {
+    id: string,
+    title: string
+}
 
 
 
