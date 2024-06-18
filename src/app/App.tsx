@@ -3,7 +3,7 @@ import './App.css'
 import {TodolistsList} from 'features/TodolistsList/TodolistsList'
 import {useSelector} from 'react-redux'
 import {AppRootStateType} from './store'
-import {initializeAppTC, selectIsInitialized, selectStatus} from 'app/app.reducer'
+import {selectIsInitialized, selectStatus} from 'app/app.reducer'
 import {HashRouter, Route, Routes} from 'react-router-dom'
 import {Login} from 'features/auth/ui/Login'
 import {
@@ -32,7 +32,7 @@ function App({demo = false}: PropsType) {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        dispatch(authThunks.initializeApp())
     }, [])
 
     const logoutHandler = useCallback(() => {

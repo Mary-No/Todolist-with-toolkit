@@ -1,2 +1,2 @@
 export type {BaseAction} from './types'
-export type {ResponseType as BaseResponseType} from './types'
+export type {BaseResponseType} from './types'

@@ -4,12 +4,12 @@ import {
     TodolistType
 } from 'features/TodolistsList/Todolist/todolists-api'
 import {appActions, RequestStatusType} from 'app/app.reducer'
-import {handleServerNetworkError} from 'common/utils/handleServerNetworkError'
+import {handleServerNetworkError} from 'common/utils/handle-server-network-error'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "common/actions/common.actions";
-import {createAppAsyncThunk} from "common/utils/createAppAsyncThunk";
-import {handleServerAppError} from "../../common/utils";
-import { ResultCode } from 'common/enums';
+import {createAppAsyncThunk} from "common/utils/create-app-async-thunk";
+import {handleServerAppError, thunkTryCatch} from "../../common/utils";
+import {ResultCode} from 'common/enums';
 
 
 const slice = createSlice({
@@ -84,12 +84,10 @@ const removeTodolist = createAppAsyncThunk<{
     }
 })
 
-const addTodolist = createAppAsyncThunk<{
-    todolist: TodolistType
-}, string>(`${slice.name}/addTodolist`, async (title: string, thunkAPI) => {
+const addTodolist = createAppAsyncThunk<{todolist: TodolistType}, string>(`${slice.name}/addTodolist`, async (title: string, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
-    try {
-        dispatch(appActions.setAppStatus({status: 'loading'}))
+
+    return thunkTryCatch(thunkAPI, async () => {
         const res = await todolistsAPI.createTodolist(title)
         if (res.data.resultCode === ResultCode.Success) {
             dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -98,13 +96,10 @@ const addTodolist = createAppAsyncThunk<{
             handleServerAppError(res.data, dispatch);
             return rejectWithValue(null)
         }
-    } catch (err) {
-        handleServerNetworkError(err, dispatch)
-        return rejectWithValue(null)
-    }
+    })
 })
 
-const changeTodolistTitle = createAppAsyncThunk< ChangeTodolistTitleArgs, ChangeTodolistTitleArgs>(`${slice.name}/changeTodolistTitle`, async ({id, title}, thunkAPI) => {
+const changeTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgs, ChangeTodolistTitleArgs>(`${slice.name}/changeTodolistTitle`, async ({id, title}, thunkAPI) => {
     const {dispatch, rejectWithValue} = thunkAPI
     try {
         dispatch(appActions.setAppStatus({status: 'loading'}))
