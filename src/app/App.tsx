@@ -20,6 +20,7 @@ import {Menu} from '@mui/icons-material'
 import {useAppDispatch} from "common/hooks/useAppDispatch";
 import {ErrorSnackbar} from "common/components";
 import {authThunks} from "../features/auth/model/auth.reducer";
+import {useActions} from "../common/hooks/useActions";
 
 type PropsType = {
     demo?: boolean
@@ -29,14 +30,14 @@ function App({demo = false}: PropsType) {
     const status = useSelector(selectStatus)
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useAppDispatch()
+    const {initializeApp, logout} = useActions()
 
     useEffect(() => {
-        dispatch(authThunks.initializeApp())
+        initializeApp()
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(authThunks.logout())
+        logout()
     }, [])
 
     if (!isInitialized) {

@@ -75,7 +75,6 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, CreateTaskArgs>(`${slice
     return thunkTryCatch(thunkAPI, async ()=>{
         const res = await todolistsAPI.createTask(arg)
         if (res.data.resultCode === ResultCode.Success) {
-            dispatch(appActions.setAppStatus({status: 'succeeded'}))
             return {task: res.data.data.item}
         } else {
             handleServerAppError(res.data, dispatch);
